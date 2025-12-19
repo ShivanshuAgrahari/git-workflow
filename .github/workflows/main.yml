@@ -1,0 +1,39 @@
+# The name of the workflow as it appears in the GitHub Actions tab
+name: CI/CD Pipeline
+
+# 1. TRIGGERS: When should this run?
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch: # Allows you to run it manually from the UI
+
+# 2. JOBS: What tasks are we doing?
+jobs:
+  build-and-test:
+    # Where to run the job (virtual machine)
+    runs-on: ubuntu-latest
+    
+    # 3. STEPS: The sequence of individual commands
+    steps:
+      # Use a pre-made action to download your code onto the runner
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Run a terminal command
+      - name: Run a Script
+        run: echo "Hello, world!"
+
+      # Use a specific version of a language
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Install and test
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Tests
+        run: npm test
